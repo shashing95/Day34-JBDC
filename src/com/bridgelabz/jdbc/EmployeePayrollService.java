@@ -12,7 +12,7 @@ public class EmployeePayrollService {
 		DB_IO
 	}
 
-	private List<EmployeePayrollData> employeePayrollList;
+	
 
 	public EmployeePayrollService() {
 		employeePayrollDBService = EmployeePayrollDBService.getInstance();
@@ -25,6 +25,14 @@ public class EmployeePayrollService {
 	}
 	 public void updateEmployeeSalary(String name, double salary) throws EmployeePayrollException {
 	        int result = employeePayrollDBService.updateEmployeeData(name, salary);
+	        if(result == 0)
+	            return;
+	        EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
+	        if( employeePayrollData != null )
+	            employeePayrollData.salary = salary;
+	    }
+	 public void updateEmployeeSalaryUsingPreparedStatement(String name, double salary) throws EmployeePayrollException {
+	        int result = employeePayrollDBService.updateEmployeeDataPreparedStatement(name, salary);
 	        if(result == 0)
 	            return;
 	        EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
